@@ -18,6 +18,22 @@
 5. A live demo of the application running on Azure — show all deployed services, place orders, and verify analytics
 6. Creating and walkthrough of your architecture diagram
 
+## Overview
+The Order analytics service is written in Python and uses Flask for the endpoints of 
+- `/analytics/summary`
+- `/analytics/products` 
+- `/analytics/top-products` 
+- `/orders` 
+- `/health`
+
+The RabbitMQ consumer runs in the background thread with the Flask application. When orders are placed, the order service publishes it to RabbitMQ and the Order analytics service consumes it and updates the information about the products and orders. Through `GET` endpoints, the product or order information is available.  
+![alt text](./assets/overview.png)
+
+## Architecture
+The service follows a workers queue pattern. The order service publishes to an `order_queue` and the consumer (Order Analytics Service) consumes it with acknowledgements. This pattern was chosen because each order only needs to be processed once. The service runs as a single consumer as the data is stored in memory. Having multiple consumers would split orders and not report correct totals from the `GET` endpoints. To further scale this, the data consumed would need to be stored into a database to leverage multiple consumers.
+
+![alt text](./assets/architecture.png)
+
 ## Source Code
 [Python File](./app.py)
 
