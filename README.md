@@ -37,3 +37,10 @@ pip install -r requirements.txt
 
 python app.py
 ```
+
+## Resources
+- https://www.rabbitmq.com/tutorials/tutorial-three-python
+
+
+## Acknowledgements
+- Used AI to help create the starter code for threads, pika, and flask 
