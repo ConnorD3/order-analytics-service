@@ -151,11 +151,12 @@ def run_consumer():
     except Exception as e:
         print(f"Consumer crashed with error: {e}")
 
+# start RabbitMQ thread
+t1 = threading.Thread(target=run_consumer, daemon=True)
+t1.start()
+
+# start Flask app
 if __name__ == '__main__':  
 
-    # start RabbitMQ thread
-    t1 = threading.Thread(target=run_consumer)
-    t1.start()
-
-    # start Flask app
-    app.run()  
+    app.run()
+    
